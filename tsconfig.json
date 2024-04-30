@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {  
+      "jsx": "react-jsx",
+      "allowJs": true,
+      "moduleResolution": "node",
+      "outDir": "./dist",
+      "strict": false,
+      "esModuleInterop": true,
+      "sourceMap": true,
+      "paths": {
+        "@bank/*": [
+          "./src/*"
+        ]
+      },
+      "types": ["node", "jest", "@testing-library/jest-dom"],
+    },
+    "include": ["src/**/*"],
+}
