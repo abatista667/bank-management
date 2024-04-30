@@ -10,4 +10,4 @@ export const theme = createTheme({
 			main: yellow[500],
 		},
 	},
-})
+});

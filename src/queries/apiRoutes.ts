@@ -1,3 +1,4 @@
 export const apiRoutes = {
-    listAccount: "accounts"
-}
+	listAccount: "account",
+	addAccount: "account",
+};

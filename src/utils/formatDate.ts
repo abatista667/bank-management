@@ -1,5 +1,5 @@
 export const formatDate = (date: string | Date) => {
-    const formatter= new Intl.DateTimeFormat()
+	const formatter = new Intl.DateTimeFormat();
 
-    return formatter.format(new Date(date))
-}
+	return formatter.format(new Date(date));
+};
