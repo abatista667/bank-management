@@ -14,6 +14,7 @@ import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import SyncAltIcon from "@mui/icons-material/SyncAlt";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { useNavigate } from "react-router-dom";
+import { routes } from "@bank/constants/routes";
 
 export const drawerWidth = "300px";
 
@@ -26,13 +27,13 @@ interface MenuItem {
 const MenuContent = () => {
 	const menuItems: MenuItem[] = [
 		{
-			route: "/",
+			route: routes.accountList,
 			text: "Account List",
 			icon: <AccountBalanceIcon />,
 		},
 		{
-			route: "/transfers",
-			text: "Transfers",
+			route: routes.transactions,
+			text: "Transactions",
 			icon: <SyncAltIcon />,
 		},
 	];

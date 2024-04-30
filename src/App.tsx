@@ -6,11 +6,16 @@ import { routes } from "./constants/routes";
 import AccountList from "./pages/AccountList";
 import "./App.css";
 import { ConfirmDialogProvider } from "./components/ConfirmDialg/ConfirmDilogContext";
+import TransactionList from "./pages/TransactionList";
 
 const router = createBrowserRouter([
 	{
 		path: routes.accountList,
 		element: <AccountList />,
+	},
+	{
+		path: routes.transactions,
+		element: <TransactionList />,
 	},
 ]);
 

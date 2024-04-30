@@ -24,12 +24,7 @@ const FormCard = ({
 			<IconButton className={classes.close} onClick={onCancel}>
 				<CloseIcon color="primary" />
 			</IconButton>
-			<IconButton
-				disabled={!isValid}
-				type="submit"
-				className={classes.save}
-				onClick={onSave}
-			>
+			<IconButton disabled={!isValid} className={classes.save} onClick={onSave}>
 				<DoneIcon color={isValid ? "primary" : "disabled"} />
 			</IconButton>
 			{children}

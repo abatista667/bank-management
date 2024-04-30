@@ -4,6 +4,7 @@ import FormCard from "@bank/components/FormCard";
 import { Account, EditMode } from "@bank/types";
 import React, { useState } from "react";
 import * as yup from "yup";
+import { errorMessage } from "@bank/constants/errorMessage";
 
 interface AccountFormProps {
 	onSave: () => void;
@@ -37,14 +38,14 @@ const AccountForm = ({
 					return !(mode === "create" && existingAccounts?.has(value));
 				},
 			)
-			.required("The ownerId is required")
-			.typeError("The ownerId must be a number"),
-		alias: yup.string().required("The alias is required"),
-		currency: yup.string().required("The alias is required"),
+			.required(errorMessage.required)
+			.typeError(errorMessage.numeric),
+		alias: yup.string().required(errorMessage.required),
+		currency: yup.string().required(errorMessage.required),
 		balance: yup
 			.number()
-			.required("The alias is required")
-			.typeError("The alias must be a number"),
+			.required(errorMessage.required)
+			.typeError(errorMessage.numeric),
 	});
 
 	const onChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
