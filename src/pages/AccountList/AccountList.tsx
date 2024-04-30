@@ -5,11 +5,12 @@ import { DataGrid } from "@mui/x-data-grid";
 import Heading from "@bank/components/Heading/Heading";
 import AccountForm from "./AccountForm";
 import { useListAccount } from "@bank/queries/listAccounts";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Account, EditMode } from "@bank/types";
 import { useAccountListColumns } from "./useAccountListColumns";
 import { useAddOrUpdateAccount } from "@bank/queries/addOrUpdateAccount";
 import { useDeleteAccount } from "@bank/queries/deleteAccount";
+import { useConfirmDialog } from "@bank/components/ConfirmDialg/ConfirmDilogContext";
 
 const AccountList = () => {
 	const { classes } = useClasses();
@@ -17,9 +18,14 @@ const AccountList = () => {
 	const [isEditFormOpenned, setisEditFormOpenned] = useState(false);
 	const [selectedAccount, setSelectedAccount] = useState<Partial<Account>>({});
 	const [editMode, setEditMode] = useState<EditMode>("create");
+	const accountSet = useMemo(
+		() => new Set(data?.data.map((item) => item.ownerId)),
+		[data],
+	);
 
 	const { mutate: addOrUpdateAccount } = useAddOrUpdateAccount();
 	const { mutate: deleteAccount } = useDeleteAccount();
+	const { showMessage } = useConfirmDialog();
 
 	const addNewAccount = () => {
 		setisEditFormOpenned(true);
@@ -27,7 +33,9 @@ const AccountList = () => {
 		setEditMode("create");
 	};
 	const onDeleteAccount = (id: number) => {
-		deleteAccount(id);
+		showMessage("", "Are you sure to delete this account?", () =>
+			deleteAccount(id),
+		);
 	};
 	const onEditAccount = (account: Account) => {
 		setisEditFormOpenned(true);
@@ -60,6 +68,7 @@ const AccountList = () => {
 						onCancel={() => {
 							setisEditFormOpenned(false);
 						}}
+						existingAccounts={accountSet}
 					/>
 				) : null}
 				<div className={classes.tableWrapper}>
@@ -76,6 +85,9 @@ const AccountList = () => {
 						pageSizeOptions={[5]}
 						disableRowSelectionOnClick
 						getRowId={(row) => row["ownerId"]}
+						sx={{
+							minHeight: "400px",
+						}}
 					/>
 				</div>
 			</div>

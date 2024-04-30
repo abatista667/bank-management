@@ -5,6 +5,7 @@ import { theme } from "./theme";
 import { routes } from "./constants/routes";
 import AccountList from "./pages/AccountList";
 import "./App.css";
+import { ConfirmDialogProvider } from "./components/ConfirmDialg/ConfirmDilogContext";
 
 const router = createBrowserRouter([
 	{
@@ -19,7 +20,9 @@ const App = () => {
 	return (
 		<QueryClientProvider client={queryClient}>
 			<ThemeProvider theme={theme}>
-				<RouterProvider router={router} />
+				<ConfirmDialogProvider>
+					<RouterProvider router={router} />
+				</ConfirmDialogProvider>
 			</ThemeProvider>
 		</QueryClientProvider>
 	);

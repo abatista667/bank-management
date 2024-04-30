@@ -7,18 +7,30 @@ import { useClasses } from "./styles";
 interface FormCardProps extends PropsWithChildren {
 	onSave: () => void;
 	onCancel: () => void;
+	onValidate: () => boolean;
 }
 
-const FormCard = ({ children, onCancel, onSave }: FormCardProps) => {
+const FormCard = ({
+	children,
+	onCancel,
+	onSave,
+	onValidate,
+}: FormCardProps) => {
 	const { classes } = useClasses();
+	const isValid = onValidate();
 
 	return (
-		<Paper className={classes.card}>
+		<Paper component={"form"} className={classes.card}>
 			<IconButton className={classes.close} onClick={onCancel}>
 				<CloseIcon color="primary" />
 			</IconButton>
-			<IconButton className={classes.save} onClick={onSave}>
-				<DoneIcon color="primary" />
+			<IconButton
+				disabled={!isValid}
+				type="submit"
+				className={classes.save}
+				onClick={onSave}
+			>
+				<DoneIcon color={isValid ? "primary" : "disabled"} />
 			</IconButton>
 			{children}
 		</Paper>
