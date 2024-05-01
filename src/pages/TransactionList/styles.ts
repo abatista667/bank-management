@@ -23,24 +23,25 @@ export const useFormClasses = tss.create({
 		display: "flex",
 		flexDirection: "column",
 		gap: 8,
-		[mediumScreen]: {
-			flexDirection: "row",
-		},
 	},
 	fieldGroup: {
 		display: "flex",
 		flexDirection: "column",
 		gap: 4,
+		flex: 1,
 	},
-	alias: {
+	row: {
+		display: "flex",
+		gap: 8,
+		flexDirection: "column",
 		[mediumScreen]: {
-			width: "50%",
+			flexDirection: "row",
 		},
 	},
 	actions: {
-		marginTop: 16,
 		display: "flex",
 		width: "100%",
-		justifyContent: "center",
+		justifyContent: "end",
+		gap: 8,
 	},
 });

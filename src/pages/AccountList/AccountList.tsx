@@ -15,7 +15,7 @@ import { useConfirmDialog } from "@bank/components/ConfirmDialg/ConfirmDilogCont
 const AccountList = () => {
 	const { classes } = useClasses();
 	const { data } = useListAccount();
-	const [isEditFormOpenned, setisEditFormOpenned] = useState(false);
+	const [isEditFormOpenned, setIsEditFormOpenned] = useState(false);
 	const [selectedAccount, setSelectedAccount] = useState<Partial<Account>>({});
 	const [editMode, setEditMode] = useState<EditMode>("create");
 	const accountSet = useMemo(
@@ -28,7 +28,7 @@ const AccountList = () => {
 	const { showMessage } = useConfirmDialog();
 
 	const addNewAccount = () => {
-		setisEditFormOpenned(true);
+		setIsEditFormOpenned(true);
 		setSelectedAccount({});
 		setEditMode("create");
 	};
@@ -38,7 +38,7 @@ const AccountList = () => {
 		);
 	};
 	const onEditAccount = (account: Account) => {
-		setisEditFormOpenned(true);
+		setIsEditFormOpenned(true);
 		setSelectedAccount(account);
 		setEditMode("edit");
 	};
@@ -51,9 +51,11 @@ const AccountList = () => {
 				<Heading
 					title="Accounts"
 					action={
-						<Button variant="outlined" onClick={addNewAccount}>
-							Create new
-						</Button>
+						!isEditFormOpenned ? (
+							<Button variant="outlined" onClick={addNewAccount}>
+								Create new
+							</Button>
+						) : null
 					}
 				/>
 				{isEditFormOpenned ? (
@@ -63,10 +65,10 @@ const AccountList = () => {
 						mode={editMode}
 						onSave={() => {
 							addOrUpdateAccount(selectedAccount as Account);
-							setisEditFormOpenned(false);
+							setIsEditFormOpenned(false);
 						}}
 						onCancel={() => {
-							setisEditFormOpenned(false);
+							setIsEditFormOpenned(false);
 						}}
 						existingAccounts={accountSet}
 					/>

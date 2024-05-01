@@ -6,15 +6,16 @@ import Heading from "@bank/components/Heading/Heading";
 import { formatMoney } from "@bank/utils/formatMoney";
 import TransactionForm from "./TransactionForm";
 import { useState } from "react";
+import { Transaction } from "@bank/types";
 
 const columns: GridColDef[] = [
-	{ field: "fromOwnerId", headerName: "From owner ID", width: 150 },
-	{ field: "toOwnerId", headerName: "From owner ID", width: 150 },
-	{ field: "toCurrency", headerName: "Currency" },
+	{ field: "fromOwnerId", headerName: "From owner ID", flex: 1 },
+	{ field: "toOwnerId", headerName: "From owner ID", flex: 1 },
+	{ field: "toCurrency", headerName: "Currency", flex: 1 },
 	{
 		field: "amount",
 		headerName: "Amount",
-		width: 150,
+		flex: 1,
 		valueFormatter: (value: number, row: any) =>
 			formatMoney(value, row["toCurrency"]),
 	},
@@ -22,10 +23,24 @@ const columns: GridColDef[] = [
 
 const TransactionList = () => {
 	const { classes } = useClasses();
-	const [isNewTransactionOppened, setisNewTransactionOppened] = useState(false);
+	const [isNewTransactionOppened, setIsNewTransactionOppened] = useState(false);
+	const [transaction, setTransaction] = useState<Partial<Transaction>>({});
+
+	const onSave = () => {};
+	const onCancel = () => {
+		setTransaction({});
+		setIsNewTransactionOppened(false);
+	};
 
 	const addNewTransaction = () => {
-		setisNewTransactionOppened(true);
+		setIsNewTransactionOppened(true);
+	};
+
+	const transactionFormProps = {
+		onSave,
+		onCancel,
+		transaction,
+		setTransaction,
 	};
 
 	return (
@@ -34,12 +49,16 @@ const TransactionList = () => {
 				<Heading
 					title="Transactions"
 					action={
-						<Button variant="outlined" onClick={addNewTransaction}>
-							Create new
-						</Button>
+						!isNewTransactionOppened ? (
+							<Button variant="outlined" onClick={addNewTransaction}>
+								Create new
+							</Button>
+						) : null
 					}
 				/>
-				{isNewTransactionOppened ? <TransactionForm /> : null}
+				{isNewTransactionOppened ? (
+					<TransactionForm {...transactionFormProps} />
+				) : null}
 				<div className={classes.tableWrapper}>
 					<DataGrid
 						rows={[]}

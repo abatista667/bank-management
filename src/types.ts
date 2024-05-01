@@ -1,6 +1,3 @@
-import { transactionValidationSchema } from "./constants/validationSchemas";
-import * as yup from "yup";
-
 export interface Account {
 	ownerId: number;
 	currency: string;
@@ -10,7 +7,11 @@ export interface Account {
 
 export type EditMode = "create" | "edit";
 
-export type Transaction = yup.InferType<typeof transactionValidationSchema> & {
+export interface Transaction {
+	fromOwnerId: number,
+	toOwnerId: number,
+	transferAmount: number,
 	transactionId: string;
 	changeRate: number;
+	amount: number;
 };

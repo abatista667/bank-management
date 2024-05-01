@@ -1,10 +1,10 @@
-import { TextField, FormLabel } from "@mui/material";
+import { TextField, FormLabel, Paper, Button } from "@mui/material";
 import { useFormClasses } from "./styles";
-import FormCard from "@bank/components/FormCard";
 import { Account, EditMode } from "@bank/types";
 import React, { useState } from "react";
 import * as yup from "yup";
 import { errorMessage } from "@bank/constants/errorMessage";
+import FormCard from "@bank/components/FormCard";
 
 interface AccountFormProps {
 	onSave: () => void;
@@ -20,7 +20,8 @@ const AccountForm = ({
 	setSelectedAccount,
 	mode,
 	existingAccounts,
-	...rest
+	onSave,
+	onCancel,
 }: AccountFormProps) => {
 	const { classes, cx } = useFormClasses();
 	const { ownerId, alias, currency, balance } = selectedAccount;
@@ -69,11 +70,10 @@ const AccountForm = ({
 			});
 	};
 
-	const validateAccount = () =>
-		accountValidationSchema.isValidSync(selectedAccount);
+	const isValid = accountValidationSchema.isValidSync(selectedAccount);
 
 	return (
-		<FormCard {...rest} onValidate={validateAccount}>
+		<FormCard>
 			<div className={classes.fields}>
 				<div className={classes.fieldGroup}>
 					<FormLabel>Owner ID</FormLabel>
@@ -124,6 +124,14 @@ const AccountForm = ({
 						error={!!validationError["balance"]}
 					/>
 				</div>
+			</div>
+			<div className={classes.actions}>
+				<Button variant="outlined" onClick={onSave} disabled={!isValid}>
+					Save Account
+				</Button>
+				<Button variant="outlined" color="warning" onClick={onCancel}>
+					Cancel
+				</Button>
 			</div>
 		</FormCard>
 	);
