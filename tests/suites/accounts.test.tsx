@@ -73,10 +73,21 @@ describe("Accounts", () => {
 		expect(removedRow).toBeNull()
 	});
 	it("Filter account", async () => {
-
-		console.log(queryClient.getQueryState(["listAccount"]))
-	});
-	it("List account has error", async () => {
 		render(<App />);
+
+		const field = await screen.findByRole("generic", { name: new RegExp("Filter by Alias", "i") })
+		const textBox = within(field).getByRole("textbox");
+		await userEvent.clear(textBox)
+		await userEvent.type(textBox, "bubububu")
+
+		const grid = await screen.findByTestId("grid")
+		const row = await within(grid).queryByTestId("Euros Account");
+
+		expect(row).toBeNull()
+
+		await userEvent.clear(textBox)
+		await userEvent.type(textBox, "Euros")
+
+		const newRow = await within(grid).findByTestId("Euros Account");
 	});
 });

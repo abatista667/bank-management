@@ -8,7 +8,9 @@ const Layout = ({ children }: PropsWithChildren) => {
 	return (
 		<div className={classes.root}>
 			<Header />
-			<div className={classes.content} data-testid="content">{children}</div>
+			<div className={classes.content} data-testid="content">
+				{children}
+			</div>
 		</div>
 	);
 };

@@ -2,9 +2,9 @@
 
 ## Por Ariel Batista Sr. Frontend Developer
 
-## Como ejecutar la solución
+## How to execute it
 
-La mejor forma es usar nvm <a>https://github.com/nvm-sh</a> para instalar la version exacta de nodejs, la misma está en el archivo .nvmrc
+the best way is to use nvm <a>https://github.com/nvm-sh</a> to install the exact version of nodejs from the .nvmrc file
 
 ## Comandos de instalación:
 
@@ -14,23 +14,15 @@ nvm use
 npm i
 ```
 
-Ejecutar la solución en modo development
+Execute in dev mode
 
 ```
 npm start
 ```
 
-Ejecutar la solución en modo producción
+the backend is mocked automatically 
 
-```
-npm run build
-cd dist
-npx serve
-```
-
-Nota: puede cambiar "npx serve" por el servidor web de su preferencia
-
-## Ejecutar tests
+## Execute the tests
 
 ```
 npm run test

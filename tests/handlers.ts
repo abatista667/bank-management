@@ -50,6 +50,8 @@ export const resetAccountsMap = () => {
 	accountList.forEach(item => accountsMap.set(item.ownerId, item))
 }
 
+resetAccountsMap()
+
 export const handlers = [
 	http.get("/account", () => {
 		return HttpResponse.json(Array.from(accountsMap.values()));

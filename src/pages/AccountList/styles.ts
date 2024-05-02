@@ -21,7 +21,7 @@ export const useClasses = tss.create({
 	filterWrapper: {
 		width: "100%",
 		display: "flex",
-		marginTop: 10
+		marginTop: 10,
 	},
 	cellMargin: {
 		width: 75,

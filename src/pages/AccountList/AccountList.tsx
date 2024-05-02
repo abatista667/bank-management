@@ -113,7 +113,7 @@ const AccountList = () => {
 							<div className={classes.cellMargin}></div>
 						</Grid.Heading>
 						{accountsToDisplay.map((item) => (
-							<Grid.Row key={item.ownerId}  data-testid={item.alias}>
+							<Grid.Row key={item.ownerId} data-testid={item.alias}>
 								<Grid.Cell>{item.ownerId}</Grid.Cell>
 								<Grid.Cell>{item.alias}</Grid.Cell>
 								<Grid.Cell>{item.currency}</Grid.Cell>
@@ -121,14 +121,10 @@ const AccountList = () => {
 									{formatMoney(item.balance, item.currency)}
 								</Grid.Cell>
 								<Grid.ActionCell>
-									<IconButton
-										onClick={() => onEditAccount(item)}
-									>
+									<IconButton onClick={() => onEditAccount(item)}>
 										<EditIcon sx={{ width: 20 }} />
 									</IconButton>
-									<IconButton
-										onClick={() => onDeleteAccount(item.ownerId)}
-									>
+									<IconButton onClick={() => onDeleteAccount(item.ownerId)}>
 										<DeleteIcon sx={{ width: 20 }} />
 									</IconButton>
 								</Grid.ActionCell>
