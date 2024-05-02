@@ -22,6 +22,9 @@ export const useClasses = tss.create({
 		width: "100%",
 		display: "flex",
 	},
+	cellMargin: {
+		width: 75
+	}
 });
 
 export const useFormClasses = tss.create({

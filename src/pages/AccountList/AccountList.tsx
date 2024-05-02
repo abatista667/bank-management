@@ -1,6 +1,6 @@
 import Layout from "@bank/components/Layout/Layout";
 import { useClasses } from "./styles";
-import { Button, FormLabel, TextField } from "@mui/material";
+import { Button, IconButton, InputAdornment, TextField } from "@mui/material";
 import Heading from "@bank/components/Heading/Heading";
 import AccountForm from "./AccountForm";
 import { useListAccount } from "@bank/queries/listAccounts";
@@ -11,6 +11,9 @@ import { useDeleteAccount } from "@bank/queries/deleteAccount";
 import { useConfirmDialog } from "@bank/components/ConfirmDialg/ConfirmDilogContext";
 import { formatMoney } from "@bank/utils/formatMoney";
 import Grid from "@bank/components/Grid";
+import CloseIcon from "@mui/icons-material/Close";
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 const AccountList = () => {
 	const { classes } = useClasses();
@@ -26,7 +29,9 @@ const AccountList = () => {
 
 	const allAccounts = data?.data ?? [];
 	const accountsToDisplay = filterBy
-		? allAccounts.filter((item) => item.alias.toLowerCase().includes(filterBy.toLowerCase()))
+		? allAccounts.filter((item) =>
+				item.alias.toLowerCase().includes(filterBy.toLowerCase()),
+			)
 		: allAccounts;
 
 	const { mutate: addOrUpdateAccount } = useAddOrUpdateAccount();
@@ -39,7 +44,7 @@ const AccountList = () => {
 		setEditMode("create");
 	};
 	const onDeleteAccount = (id: number) => {
-		showMessage("", "Are you sure to delete divis account?", () =>
+		showMessage("", "Are you sure to delete this account?", () =>
 			deleteAccount(id),
 		);
 	};
@@ -84,6 +89,18 @@ const AccountList = () => {
 						placeholder="Filter by Alias"
 						aria-label="Filter by Alias"
 						onChange={(ev) => setFilterBy(ev.currentTarget.value)}
+						InputProps={{
+							endAdornment: filterBy ? (
+								<InputAdornment position="end">
+									<IconButton onClick={(ev) => setFilterBy("")}>
+										<CloseIcon />
+									</IconButton>
+								</InputAdornment>
+							) : null,
+						}}
+						sx={{
+							width: 300,
+						}}
 					/>
 				</div>
 				<div className={classes.tableWrapper}>
@@ -93,6 +110,7 @@ const AccountList = () => {
 							<Grid.HeadingCell>Alias</Grid.HeadingCell>
 							<Grid.HeadingCell>Currency</Grid.HeadingCell>
 							<Grid.HeadingCell>Balance</Grid.HeadingCell>
+							<div className={classes.cellMargin}></div>
 						</Grid.Heading>
 						{accountsToDisplay.map((item) => (
 							<Grid.Row>
@@ -103,7 +121,12 @@ const AccountList = () => {
 									{formatMoney(item.balance, item.currency)}
 								</Grid.Cell>
 								<Grid.ActionCell>
-									<></>
+								<IconButton color="primary" onClick={() => onEditAccount(item)}>
+										<EditIcon sx={{ width: 20 }}  />
+									</IconButton>
+									<IconButton color="warning" onClick={() => onDeleteAccount(item.ownerId)}>
+										<DeleteIcon sx={{ width: 20 }} />
+									</IconButton>
 								</Grid.ActionCell>
 							</Grid.Row>
 						))}

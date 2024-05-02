@@ -220,7 +220,7 @@ const TransactionForm = ({
 			</div>
 			<div className={classes.actions}>
 				<Button variant="outlined" disabled={!isValid} onClick={onSave}>
-					Save Account
+					Send Transaaction
 				</Button>
 				<Button variant="outlined" color="warning" onClick={onCancel}>
 					Cancel
