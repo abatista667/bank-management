@@ -99,23 +99,19 @@ const TransactionList = () => {
 					<TransactionForm {...transactionFormProps} />
 				) : null}
 				<div className={classes.tableWrapper}>
-				<Grid>
+					<Grid>
 						<Grid.Heading>
-							<Grid.HeadingCell>
-								From Account
-							</Grid.HeadingCell>
-							<Grid.HeadingCell >
-								To Account
-							</Grid.HeadingCell>
-							<Grid.HeadingCell >
-								Amount
-							</Grid.HeadingCell>
+							<Grid.HeadingCell>From Account</Grid.HeadingCell>
+							<Grid.HeadingCell>To Account</Grid.HeadingCell>
+							<Grid.HeadingCell>Amount</Grid.HeadingCell>
 						</Grid.Heading>
 						{tableRow?.map((item) => (
 							<Grid.Row>
 								<Grid.Cell>{item.from}</Grid.Cell>
 								<Grid.Cell>{item.to}</Grid.Cell>
-								<Grid.Cell>{formatMoney(item.amount, item.toCurrency)}</Grid.Cell>
+								<Grid.Cell>
+									{formatMoney(item.amount, item.toCurrency)}
+								</Grid.Cell>
 							</Grid.Row>
 						))}
 					</Grid>

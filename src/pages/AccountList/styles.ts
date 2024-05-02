@@ -18,38 +18,9 @@ export const useClasses = tss.create({
 		marginTop: 20,
 		width: "100%",
 	},
-	grid: {
+	filterWrapper: {
 		width: "100%",
 		display: "flex",
-		flexDirection: "column",
-		minHeight: 400
-	},
-	gridRow: {
-		width: "100%",
-		borderTop: `1px solid ` + borderColor,
-		borderInline: `1px solid ` + borderColor,
-		display: "flex",
-		paddingBlock: 8,
-		paddingInline: 5,
-	},
-	cell: {
-		...theme.typography.body1 as any,
-		flex: 1
-	},
-	headingCell: {
-		...theme.typography.body1 as any,
-		fontWeight: theme.typography.fontWeightBold,
-		flex: 1
-	},
-	gridHeadingRow: {
-		width: "100%",
-		borderTop: `1px solid ` + borderColor,
-		borderInline: `1px solid ` + borderColor,
-		display: "flex",
-		borderTopRightRadius: 5,
-		borderTopLeftRadius: 5,
-		paddingBlock: 8,
-		paddingInline: 5,
 	},
 });
 

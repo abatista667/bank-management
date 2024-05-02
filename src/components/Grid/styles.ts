@@ -19,15 +19,15 @@ export const useClasses = tss.create({
 		borderInline: `1px solid ` + borderColor,
 	},
 	cell: {
-		...theme.typography.body1 as any,
+		...(theme.typography.body1 as any),
 		flex: 1,
 		paddingBlock: 12,
 	},
 	action: {
-		...theme.typography.body1 as any,
+		...(theme.typography.body1 as any),
 	},
 	headingCell: {
-		...theme.typography.body1 as any,
+		...(theme.typography.body1 as any),
 		fontWeight: theme.typography.fontWeightBold,
 		flex: 1,
 		paddingBlock: 14,
@@ -45,6 +45,6 @@ export const useClasses = tss.create({
 		flex: "1",
 		border: `1px solid ` + borderColor,
 		borderBottomRightRadius: 5,
-		borderBottomLeftRadius: 5
-	}
+		borderBottomLeftRadius: 5,
+	},
 });
