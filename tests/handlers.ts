@@ -43,9 +43,12 @@ const transactions = [
 ]
 
 
-const accountsMap = new Map<number, any>();
+let accountsMap = new Map<number, any>()
 
-accountList.forEach(item => accountsMap.set(item.ownerId, item))
+export const resetAccountsMap = () => {
+	accountsMap = new Map<number, any>();
+	accountList.forEach(item => accountsMap.set(item.ownerId, item))
+}
 
 export const handlers = [
 	http.get("/account", () => {

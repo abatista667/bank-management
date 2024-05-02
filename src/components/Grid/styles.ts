@@ -10,7 +10,7 @@ export const useClasses = tss.create({
 		display: "flex",
 		flexDirection: "column",
 		minHeight: 400,
-		minWidth: 700
+		minWidth: 700,
 	},
 	gridRow: {
 		width: "100%",

@@ -106,7 +106,7 @@ const TransactionList = () => {
 							<Grid.HeadingCell>Amount</Grid.HeadingCell>
 						</Grid.Heading>
 						{tableRow?.map((item) => (
-							<Grid.Row>
+							<Grid.Row key={item.id} data-testid={item.from}>
 								<Grid.Cell>{item.from}</Grid.Cell>
 								<Grid.Cell>{item.to}</Grid.Cell>
 								<Grid.Cell>

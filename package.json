@@ -7,7 +7,7 @@
 		"start": "webpack serve --open",
 		"build": "webpack --env production",
 		"format": "npx prettier --use-tabs -w ./src/*",
-		"test": "jest"
+		"test": "jest --runInBand"
 	},
 	"author": "",
 	"license": "ISC",

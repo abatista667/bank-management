@@ -12,8 +12,8 @@ import { useConfirmDialog } from "@bank/components/ConfirmDialg/ConfirmDilogCont
 import { formatMoney } from "@bank/utils/formatMoney";
 import Grid from "@bank/components/Grid";
 import CloseIcon from "@mui/icons-material/Close";
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 
 const AccountList = () => {
 	const { classes } = useClasses();
@@ -103,7 +103,7 @@ const AccountList = () => {
 						}}
 					/>
 				</div>
-				<div className={classes.tableWrapper}>
+				<div className={classes.tableWrapper} data-testid="grid">
 					<Grid>
 						<Grid.Heading>
 							<Grid.HeadingCell>An owner ID</Grid.HeadingCell>
@@ -113,7 +113,7 @@ const AccountList = () => {
 							<div className={classes.cellMargin}></div>
 						</Grid.Heading>
 						{accountsToDisplay.map((item) => (
-							<Grid.Row>
+							<Grid.Row key={item.ownerId}  data-testid={item.alias}>
 								<Grid.Cell>{item.ownerId}</Grid.Cell>
 								<Grid.Cell>{item.alias}</Grid.Cell>
 								<Grid.Cell>{item.currency}</Grid.Cell>
@@ -121,10 +121,14 @@ const AccountList = () => {
 									{formatMoney(item.balance, item.currency)}
 								</Grid.Cell>
 								<Grid.ActionCell>
-								<IconButton color="primary" onClick={() => onEditAccount(item)}>
-										<EditIcon sx={{ width: 20 }}  />
+									<IconButton
+										onClick={() => onEditAccount(item)}
+									>
+										<EditIcon sx={{ width: 20 }} />
 									</IconButton>
-									<IconButton color="warning" onClick={() => onDeleteAccount(item.ownerId)}>
+									<IconButton
+										onClick={() => onDeleteAccount(item.ownerId)}
+									>
 										<DeleteIcon sx={{ width: 20 }} />
 									</IconButton>
 								</Grid.ActionCell>

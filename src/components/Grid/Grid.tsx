@@ -21,9 +21,9 @@ const Heading = ({ children }) => {
 	const { classes } = useClasses();
 	return <div className={classes.gridHeadingRow}>{children}</div>;
 };
-const Row = ({ children }) => {
+const Row = ({ children, ...rest }) => {
 	const { classes } = useClasses();
-	return <div className={classes.gridRow}>{children}</div>;
+	return <div {...rest} className={classes.gridRow}>{children}</div>;
 };
 const HeadingCell = ({ children }) => {
 	const { classes } = useClasses();

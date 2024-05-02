@@ -73,11 +73,12 @@ const AccountForm = ({
 	const isValid = accountValidationSchema.isValidSync(selectedAccount);
 
 	return (
-		<FormCard>
+		<FormCard data-testid="accountForm">
 			<div className={classes.fields}>
 				<div className={classes.fieldGroup}>
 					<FormLabel>Owner ID</FormLabel>
 					<TextField
+						aria-label={"Owner ID"}
 						name="ownerId"
 						size="small"
 						fullWidth
@@ -92,6 +93,7 @@ const AccountForm = ({
 					<FormLabel>Alias</FormLabel>
 					<TextField
 						name="alias"
+						aria-label={"Alias"}
 						size="small"
 						fullWidth
 						value={alias ?? ""}
@@ -103,6 +105,7 @@ const AccountForm = ({
 				<div className={classes.fieldGroup}>
 					<FormLabel>Currency</FormLabel>
 					<TextField
+						aria-label={"Currency"}
 						name="currency"
 						size="small"
 						fullWidth
@@ -115,6 +118,7 @@ const AccountForm = ({
 				<div className={classes.fieldGroup}>
 					<FormLabel>Balance</FormLabel>
 					<TextField
+						aria-label={"Balance"}
 						name="balance"
 						size="small"
 						fullWidth

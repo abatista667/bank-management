@@ -21,10 +21,11 @@ export const useClasses = tss.create({
 	filterWrapper: {
 		width: "100%",
 		display: "flex",
+		marginTop: 10
 	},
 	cellMargin: {
-		width: 75
-	}
+		width: 75,
+	},
 });
 
 export const useFormClasses = tss.create({
