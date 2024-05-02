@@ -1,10 +1,6 @@
 import { Account } from "@bank/types";
 import { formatMoney } from "@bank/utils/formatMoney";
-import {
-	GridActionsCellItem,
-	GridColDef,
-	GridRowParams,
-} from "@mui/x-data-grid";
+
 import { useMemo } from "react";
 
 interface UseAccountColumnsProps {
@@ -17,7 +13,7 @@ export const useAccountListColumns = ({
 	onDeleteAccount,
 }: UseAccountColumnsProps) => {
 	return useMemo(() => {
-		const columns: GridColDef[] = [
+		const columns: any[] = [
 			{ field: "ownerId", headerName: "An owner ID", width: 150 },
 			{ field: "alias", headerName: "Alias", flex: 1 },
 			{ field: "currency", headerName: "Currency" },
@@ -31,17 +27,17 @@ export const useAccountListColumns = ({
 			{
 				field: "actions",
 				type: "actions",
-				getActions: (params: GridRowParams) => [
-					<GridActionsCellItem
-						label="Edit"
-						onClick={() => onEditAccount(params.row)}
-						showInMenu
-					/>,
-					<GridActionsCellItem
-						onClick={() => onDeleteAccount(params.row["ownerId"])}
-						label="Delete"
-						showInMenu
-					/>,
+				getActions: (params: any) => [
+					// <GridActionsCellItem
+					// 	label="Edit"
+					// 	onClick={() => onEditAccount(params.row)}
+					// 	showInMenu
+					// />,
+					// <GridActionsCellItem
+					// 	onClick={() => onDeleteAccount(params.row["ownerId"])}
+					// 	label="Delete"
+					// 	showInMenu
+					// />,
 				],
 			},
 		];

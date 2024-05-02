@@ -82,5 +82,4 @@ export const handlers = [
 	http.get("/transaction", async () => {
 		return HttpResponse.json(Array.from(transactions.values()))
 	}),
-
 ];
