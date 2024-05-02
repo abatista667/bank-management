@@ -17,7 +17,7 @@ interface AutocompleteProps
 	onChange: (name: string, obj: AutocompleteItem) => void;
 }
 
-function Autocomplete<T>({
+function Autocomplete({
 	options,
 	value,
 	onChange,

@@ -1,7 +1,7 @@
 import { TextField, FormLabel, Button } from "@mui/material";
 import { useFormClasses } from "./styles";
 import { Account, Transaction } from "@bank/types";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import * as yup from "yup";
 import FormCard from "@bank/components/FormCard";
 import { useListAccount } from "@bank/queries/listAccounts";
@@ -10,6 +10,7 @@ import Autocomplete, {
 	AutocompleteItem,
 } from "@bank/components/Autocomplete/Autocomplete";
 import { errorMessage } from "@bank/constants/errorMessage";
+import { useGetChangeRate } from "@bank/queries/getChangeRate";
 
 interface TransactionFormProps {
 	onSave: () => void;
@@ -40,6 +41,29 @@ const TransactionForm = ({
 		[accountData],
 	);
 
+	const currencyFrom = accountMap.get(transaction?.fromOwnerId)?.currency;
+	const currencyTo = accountMap.get(transaction?.toOwnerId)?.currency;
+
+	const { data: rateData } = useGetChangeRate(currencyFrom, currencyTo);
+
+	useEffect(() => {
+		const newVersion = {
+			...transaction,
+			changeRate: rateData?.data,
+		} as Transaction;
+		setTransaction(newVersion);
+	}, [rateData]);
+
+	useEffect(() => {
+		if (!transaction.changeRate || !transaction.transferAmount) return;
+
+		const newVersion = {
+			...transaction,
+			amount: transaction.transferAmount * transaction.changeRate,
+		} as Transaction;
+		setTransaction(newVersion);
+	}, [transaction.transferAmount, transaction.changeRate]);
+
 	const transactionValidationSchema = yup.object({
 		fromOwnerId: yup
 			.number()
@@ -54,8 +78,8 @@ const TransactionForm = ({
 			.required(errorMessage.required)
 			.typeError(errorMessage.numeric)
 			.test("balance", "Account has not enought balance", (value) => {
-				const account = accountMap.get(transaction.fromOwnerId)
-				return value < (account?.balance ?? 0)
+				const account = accountMap.get(transaction.fromOwnerId);
+				return value < (account?.balance ?? 0);
 			}),
 	});
 
@@ -180,6 +204,7 @@ const TransactionForm = ({
 							fullWidth
 							value={transaction.changeRate ?? ""}
 							disabled
+							placeholder="Calculated field"
 						/>
 					</div>
 					<div className={classes.fieldGroup}>
@@ -188,8 +213,13 @@ const TransactionForm = ({
 							name="amount"
 							size="small"
 							fullWidth
-							value={transaction.amount ?? ""}
+							value={
+								transaction.amount
+									? formatMoney(transaction.amount, currencyTo)
+									: ""
+							}
 							disabled
+							placeholder="Calculated field"
 						/>
 					</div>
 				</div>

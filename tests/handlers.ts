@@ -7,26 +7,42 @@ const accountList = [
 	{ ownerId: 3, currency: "GBP", alias: "Pounds Account", balance: 50000 },
 ];
 
-const map = new Map<number, any>();
+const rates = new Map<string, number>([
+	[JSON.stringify({ from: "USD", to: "EUR"}), 0.9],
+	[JSON.stringify({ from: "EUR", to: "USD"}), 1.1],
+	[JSON.stringify({ from: "USD", to: "GBP"}), 0.8],
+	[JSON.stringify({ from: "GBP", to: "USD"}), 1.2],
+	[JSON.stringify({ from: "EUR", to: "GBP"}), 0.86],
+	[JSON.stringify({ from: "GBP", to: "EUR"}), 1.17],
+]);
 
-accountList.forEach(item => map.set(item.ownerId, item))
+const accountsMap = new Map<number, any>();
+
+accountList.forEach(item => accountsMap.set(item.ownerId, item))
 
 export const handlers = [
 	http.get("/account", () => {
-		return HttpResponse.json(Array.from(map.values()));
+		return HttpResponse.json(Array.from(accountsMap.values()));
 	}),
 
 	http.put("/account/:id", async ({params, request}) => {
 		const { id } = params;
 		const newAccount = await request.json();
-		map.set(parseInt(id as string), newAccount)
+		accountsMap.set(parseInt(id as string), newAccount)
 
 		return HttpResponse.json({})
 	}),
 	http.delete("/account/:id", async ({params}) => {
 		const { id } = params;
-		map.delete(parseInt(id as any))
+		accountsMap.delete(parseInt(id as any))
 
 		return HttpResponse.json({})
+	}),
+	http.get("/changeRate/:from/:to", ({ params }) => {
+		const rate = rates.get(JSON.stringify({ from: params.from, to: params.to }))
+
+		if(rate) return HttpResponse.json(rate)
+
+		return HttpResponse.json(1);
 	}),
 ];
