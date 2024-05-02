@@ -1,4 +1,3 @@
-import { Account } from "@bank/types";
 import { http, HttpResponse } from "msw";
 
 const accountList = [
@@ -16,6 +15,34 @@ const rates = new Map<string, number>([
 	[JSON.stringify({ from: "GBP", to: "EUR"}), 1.17],
 ]);
 
+const transactions = [
+    {
+        "changeRate": 1.1,
+        "fromOwnerId": 1,
+        "toOwnerId": 2,
+        "transferAmount": "200",
+        "amount": 220.00000000000003,
+        "id": 1
+    },
+    {
+        "changeRate": 1.17,
+        "fromOwnerId": 3,
+        "toOwnerId": 1,
+        "transferAmount": "100",
+        "amount": 117,
+        "id": 2
+    },
+    {
+        "changeRate": 1.17,
+        "fromOwnerId": 3,
+        "toOwnerId": 1,
+        "transferAmount": "159",
+        "amount": 186.03,
+        "id": 3
+    }
+]
+
+
 const accountsMap = new Map<number, any>();
 
 accountList.forEach(item => accountsMap.set(item.ownerId, item))
@@ -32,6 +59,7 @@ export const handlers = [
 
 		return HttpResponse.json({})
 	}),
+
 	http.delete("/account/:id", async ({params}) => {
 		const { id } = params;
 		accountsMap.delete(parseInt(id as any))
@@ -45,4 +73,14 @@ export const handlers = [
 
 		return HttpResponse.json(1);
 	}),
+	http.post("/transaction", async ({request}) => {
+		const transaction = await request.json() as any
+		const id = transactions.length + 1
+		transactions.push({... transaction, id})
+		return HttpResponse.json({})
+	}),
+	http.get("/transaction", async () => {
+		return HttpResponse.json(Array.from(transactions.values()))
+	}),
+
 ];

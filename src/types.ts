@@ -15,3 +15,7 @@ export interface Transaction {
 	changeRate: number;
 	amount: number;
 }
+
+export interface TransactionResponse extends Transaction {
+	id: string;
+}

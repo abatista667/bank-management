@@ -17,6 +17,8 @@ interface TransactionFormProps {
 	onCancel: () => void;
 	transaction: Partial<Transaction>;
 	setTransaction: (Transaction: Transaction) => void;
+	accountMap: Map<number, Account>;
+	accounts: Account[];
 }
 
 const TransactionForm = ({
@@ -24,22 +26,14 @@ const TransactionForm = ({
 	onCancel,
 	transaction,
 	setTransaction,
+	accountMap,
+	accounts,
 }: TransactionFormProps) => {
 	const { classes } = useFormClasses();
 
 	const [validationError, setValidationError] = useState<
 		Record<string, string>
 	>({});
-
-	const { data: accountData } = useListAccount();
-
-	const accountMap = useMemo(
-		() =>
-			new Map<number, Account>(
-				accountData?.data.map((item) => [item.ownerId, item]),
-			),
-		[accountData],
-	);
 
 	const currencyFrom = accountMap.get(transaction?.fromOwnerId)?.currency;
 	const currencyTo = accountMap.get(transaction?.toOwnerId)?.currency;
@@ -85,11 +79,11 @@ const TransactionForm = ({
 
 	const accountsFrom: AutocompleteItem[] = useMemo(
 		() =>
-			accountData?.data.map((item) => ({
+			accounts.map((item) => ({
 				label: `${item.alias} - ${formatMoney(item.balance, item.currency)}`,
 				value: item.ownerId,
 			})) ?? [],
-		[accountData],
+		[accounts],
 	);
 
 	const accountsTo = useMemo(

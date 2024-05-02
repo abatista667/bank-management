@@ -5,13 +5,15 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import Heading from "@bank/components/Heading/Heading";
 import { formatMoney } from "@bank/utils/formatMoney";
 import TransactionForm from "./TransactionForm";
-import { useState } from "react";
-import { Transaction } from "@bank/types";
+import { useMemo, useState } from "react";
+import { Account, Transaction, TransactionResponse } from "@bank/types";
+import { uselistTransaction } from "@bank/queries/listTransactions";
+import { useAddTransaction } from "@bank/queries/addTransaction";
+import { useListAccount } from "@bank/queries/listAccounts";
 
 const columns: GridColDef[] = [
-	{ field: "fromOwnerId", headerName: "From owner ID", flex: 1 },
-	{ field: "toOwnerId", headerName: "From owner ID", flex: 1 },
-	{ field: "toCurrency", headerName: "Currency", flex: 1 },
+	{ field: "from", headerName: "From Account", flex: 1 },
+	{ field: "to", headerName: "to Account", flex: 1 },
 	{
 		field: "amount",
 		headerName: "Amount",
@@ -21,12 +23,47 @@ const columns: GridColDef[] = [
 	},
 ];
 
+const mapTransactionToTransactionTableRow = (
+	transaction: TransactionResponse,
+	accountMap: Map<number, Account>,
+) => {
+	const toAccount = accountMap.get(transaction.toOwnerId);
+	return {
+		id: transaction.id,
+		amount: transaction.amount,
+		from: accountMap.get(transaction.fromOwnerId)?.alias,
+		to: toAccount?.alias,
+		toCurrency: toAccount?.currency,
+	};
+};
+
 const TransactionList = () => {
 	const { classes } = useClasses();
 	const [isNewTransactionOppened, setIsNewTransactionOppened] = useState(false);
 	const [transaction, setTransaction] = useState<Partial<Transaction>>({});
+	const { data: transactionsData } = uselistTransaction();
+	const { mutate: addTransaction } = useAddTransaction();
 
-	const onSave = () => {};
+	const { data: accountData } = useListAccount();
+
+	const accountMap = useMemo(
+		() =>
+			new Map<number, Account>(
+				accountData?.data.map((item) => [item.ownerId, item]),
+			),
+		[accountData],
+	);
+
+	const tableRow =
+		transactionsData?.data.map((item) =>
+			mapTransactionToTransactionTableRow(item, accountMap),
+		) ?? [];
+
+	const onSave = () => {
+		addTransaction(transaction as Transaction);
+		setTransaction({});
+		setIsNewTransactionOppened(false);
+	};
 	const onCancel = () => {
 		setTransaction({});
 		setIsNewTransactionOppened(false);
@@ -41,6 +78,8 @@ const TransactionList = () => {
 		onCancel,
 		transaction,
 		setTransaction,
+		accountMap,
+		accounts: accountData?.data ?? [],
 	};
 
 	return (
@@ -61,7 +100,7 @@ const TransactionList = () => {
 				) : null}
 				<div className={classes.tableWrapper}>
 					<DataGrid
-						rows={[]}
+						rows={tableRow}
 						columns={columns}
 						initialState={{
 							pagination: {
@@ -72,7 +111,6 @@ const TransactionList = () => {
 						}}
 						pageSizeOptions={[5]}
 						disableRowSelectionOnClick
-						getRowId={(row) => row["ownerId"]}
 						sx={{
 							minHeight: "400px",
 						}}
